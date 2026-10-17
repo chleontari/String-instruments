@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Οι οικογένειες των μουσικών οργάνων</title>
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f6f4ef,#151b25); --surface: light-dark(#fff,#202938); --ink: light-dark(#202b3c,#f4f6fb); --muted: light-dark(#657086,#b7c1d2); --line: light-dark(#e2e5eb,#394456); --accent: light-dark(#5b48c8,#b4a8ff); --accent-ink: light-dark(#fff,#17122d); }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+#app { min-height: 100vh; width: 100%; background-color: var(--bg); padding: clamp(20px,5vw,54px) 18px; }
+main { max-width: 760px; margin: 0 auto; }
+.eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .14em; font-size: .76rem; font-weight: 800; }
+h1 { font-size: clamp(2rem,5vw,3.25rem); line-height: 1.08; margin: 12px 0; letter-spacing: -.04em; }
+.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.6; margin: 0 0 26px; }
+.tabs { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-bottom: 14px; }
+.tab { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); padding: 13px 7px; font: inherit; font-weight: 750; cursor: pointer; transition: transform .15s, border-color .15s, background .15s; }
+.tab:hover { transform: translateY(-2px); border-color: var(--accent); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(22px,5vw,38px); min-height: 290px; box-shadow: 0 12px 36px #0000000a; }
+.icon { font-size: 3.4rem; line-height: 1; margin-bottom: 18px; }
+.panel h2 { font-size: clamp(1.5rem,4vw,2rem); margin: 0 0 10px; }
+.definition { font-size: 1.08rem; line-height: 1.65; margin: 0 0 22px; max-width: 58ch; }
+.branch-label { color: var(--muted); font-size: .88rem; font-weight: 800; margin: 0 0 10px; }
+.branches { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin: 0 0 22px; }
+.branch { text-align: left; border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: transparent; color: var(--ink); font: inherit; cursor: pointer; }
+.branch strong { display: block; margin-bottom: 5px; }
+.branch span { color: var(--muted); font-size: .9rem; line-height: 1.45; display: block; }
+.branch[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }
+.branch-detail { border-left: 3px solid var(--accent); padding: 10px 14px; margin: 0 0 22px; }
+.branch-detail h3 { margin: 0 0 6px; font-size: 1.08rem; }
+.branch-detail p { margin: 0; line-height: 1.55; color: var(--muted); }
+.fact-button { border: 0; border-radius: 999px; padding: 12px 18px; background: var(--ink); color: var(--surface); font: inherit; font-weight: 800; cursor: pointer; }
+.fact-button:hover { opacity: .86; }
+.hint { color: var(--muted); font-size: .88rem; margin-top: 22px; }
+.modal-backdrop { position: fixed; inset: 0; background: #090d16b8; display: grid; place-items: center; padding: 20px; z-index: 5; }
+.modal-backdrop[hidden] { display: none; }
+.modal { width: min(100%, 440px); background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 24px; padding: 28px; box-shadow: 0 20px 80px #0005; }
+.modal-top { display:flex; justify-content:space-between; align-items:center; gap: 12px; }
+.modal h2 { margin: 10px 0; font-size: 1.6rem; }
+.modal p { color: var(--muted); line-height: 1.65; }
+.close { border: 1px solid var(--line); background: transparent; color: var(--ink); width: 38px; height: 38px; border-radius: 50%; font-size: 1.25rem; cursor:pointer; }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media(max-width:520px) { .tabs { grid-template-columns: repeat(2,minmax(0,1fr)); } .tab { padding: 14px 8px; } }
+@media(max-width:420px) { .branches { grid-template-columns: 1fr; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; } }
+</style>
+</head>
+<body>
+<div id="app">
+<main>
+  <div class="eyebrow">Μικρομάθημα · Μουσική</div>
+  <h1>Γνώρισε τις οικογένειες των μουσικών οργάνων 🎶</h1>
+  <p class="intro">Τέσσερις οικογένειες, τέσσερις διαφορετικοί τρόποι να γεννιέται ο ήχος. Επίλεξε μια καρτέλα και ανακάλυψέ την!</p>
+  <div class="tabs" role="tablist" aria-label="Οικογένειες μουσικών οργάνων">
+    <button class="tab" id="tab-string" role="tab" aria-selected="true" aria-controls="content" tabindex="0" data-key="string">🎻 Έγχορδα</button>
+    <button class="tab" id="tab-wind" role="tab" aria-selected="false" aria-controls="content" tabindex="-1" data-key="wind">🎺 Πνευστά</button>
+    <button class="tab" id="tab-percussion" role="tab" aria-selected="false" aria-controls="content" tabindex="-1" data-key="percussion">🥁 Κρουστά</button>
+    <button class="tab" id="tab-keyboard" role="tab" aria-selected="false" aria-controls="content" tabindex="-1" data-key="keyboard">🎹 Πληκτροφόρα</button>
+  </div>
+  <section class="panel" id="content" role="tabpanel" aria-labelledby="tab-string" tabindex="0" aria-live="polite">
+    <div class="icon" id="instrument-icon" aria-hidden="true">🎻</div>
+    <h2 id="instrument-title">Έγχορδα</h2>
+    <p class="definition" id="instrument-definition">Ο ήχος τους δημιουργείται όταν δονούνται οι χορδές, με δοξάρι, δάχτυλα ή πένα. 🎶</p>
+    <p class="branch-label">Ανακάλυψε τις υποκατηγορίες</p>
+    <div class="branches" id="branches" aria-label="Υποκατηγορίες οργάνων"></div>
+    <div class="branch-detail" id="branch-detail" aria-live="polite">
+      <h3 id="branch-title">Νυκτά έγχορδα</h3>
+      <p id="branch-description">Οι χορδές τίθενται σε δόνηση με τα δάχτυλα ή πένα, όπως στην κιθάρα και στο μπουζούκι.</p>
+    </div>
+    <button class="fact-button" id="more-button">Μάθε περισσότερα ✨</button>
+    <p class="hint">Μικρή πρόκληση: μπορείς να σκεφτείς ένα ακόμη όργανο αυτής της οικογένειας;</p>
+  </section>
+</main>
+</div>
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-fact">
+    <div class="modal-top"><span class="eyebrow">Ήξερες ότι; 💡</span><button class="close" id="close-modal" aria-label="Κλείσιμο παραθύρου">×</button></div>
+    <h2 id="modal-title">Μουσικό fun fact</h2>
+    <p id="modal-fact"></p>
+    <button class="fact-button" id="got-it">Το κατάλαβα!</button>
+  </section>
+</div>
+<script>
+const families = {
+  string: { title: 'Έγχορδα', icon: '🎻', definition: 'Ο ήχος τους δημιουργείται όταν δονούνται οι χορδές, με δοξάρι, δάχτυλα ή πένα. 🎶', fact: 'Η κιθάρα και το βιολί είναι έγχορδα, αλλά παίζονται διαφορετικά: στην κιθάρα οι χορδές συνήθως νύσσονται, ενώ στο βιολί τρίβονται με δοξάρι.', branches: [{name:'Νυκτά έγχορδα',icon:'🎸',summary:'Οι χορδές νύσσονται με δάχτυλα ή πένα.',detail:'Η κιθάρα, το μπουζούκι και η άρπα ανήκουν εδώ. Οι χορδές τσιμπιούνται για να αρχίσουν να δονούνται.'},{name:'Έγχορδα με δοξάρι',icon:'🎻',summary:'Το δοξάρι τρίβεται πάνω στις χορδές.',detail:'Το βιολί, η βιόλα, το βιολοντσέλο και το κοντραμπάσο παίζονται συνήθως με δοξάρι.'}] },
+  wind: { title: 'Πνευστά', icon: '🎺', definition: 'Ο ήχος τους παράγεται όταν ο αέρας δονείται μέσα στο όργανο ή όταν φυσάμε σε επιστόμιο. 💨', fact: 'Το φλάουτο ανήκει στα πνευστά, παρόλο που ο ήχος του παράγεται όταν ο αέρας περνά πάνω από ένα άνοιγμα και όχι από μια γλωττίδα.', branches: [{name:'Ξύλινα πνευστά',icon:'🪈',summary:'Ο ήχος παράγεται με ακμή ή γλωττίδα.',detail:'Φλάουτο, κλαρινέτο, όμποε και φαγκότο ανήκουν στα ξύλινα πνευστά, ανεξάρτητα από το υλικό κατασκευής τους.'},{name:'Χάλκινα πνευστά',icon:'🎺',summary:'Τα χείλη του μουσικού δονούνται στο επιστόμιο.',detail:'Τρομπέτα, τρομπόνι, κόρνο και τούμπα είναι χάλκινα πνευστά με δυνατό, λαμπερό ήχο.'}] },
+  percussion: { title: 'Κρουστά', icon: '🥁', definition: 'Ο ήχος τους γεννιέται όταν τα χτυπάμε, τα κουνάμε ή τα τρίβουμε. Συχνά κρατούν τον ρυθμό! 🪘', fact: 'Τα κρουστά δεν είναι όλα τύμπανα: το τρίγωνο και τα κουδουνάκια είναι επίσης κρουστά, και μπορούν να παράγουν πολύ καθαρούς μουσικούς τόνους.', branches: [{name:'Ιδιόφωνα',icon:'🔔',summary:'Δονείται το ίδιο το σώμα του οργάνου.',detail:'Το τρίγωνο, τα κύμβαλα, οι μαράκες και το ξυλόφωνο παράγουν ήχο από τη δόνηση του ίδιου του υλικού τους.'},{name:'Μεμβρανόφωνα',icon:'🥁',summary:'Δονείται μια τεντωμένη μεμβράνη.',detail:'Το τύμπανο, το ταμπούρο και τα τύμπανα timpani παράγουν ήχο όταν χτυπιέται η τεντωμένη μεμβράνη τους.'}] },
+  keyboard: { title: 'Πληκτροφόρα', icon: '🎹', definition: 'Παίζονται με πλήκτρα· ανάλογα με το όργανο, ο ήχος μπορεί να παράγεται με σφυράκια, αέρα ή ηλεκτρονικά κυκλώματα. 🎼', fact: 'Το πιάνο έχει συνήθως 88 πλήκτρα. Όταν πατάμε ένα πλήκτρο, ένας μικρός μηχανισμός κινεί ένα σφυράκι που χτυπά τη χορδή.', branches: [{name:'Κλασικά πληκτροφόρα έγχορδα',icon:'🎹',summary:'Τα πλήκτρα ενεργοποιούν χορδές.',detail:'Στο πιάνο και στο τσέμπαλο, τα πλήκτρα ενεργοποιούν μηχανισμό που κάνει τις χορδές να ηχήσουν: με σφυράκια στο πιάνο και με νύξη στο τσέμπαλο.'},{name:'Αερόφωνα πληκτροφόρα',icon:'🪗',summary:'Τα πλήκτρα ή τα κουμπιά ελέγχουν τη ροή αέρα.',detail:'Στο εκκλησιαστικό όργανο και στο ακορντεόν, ο ήχος παράγεται από αέρα που περνά μέσα από αυλούς ή γλωσσίδια.'}] }
+};
+const tabs = [...document.querySelectorAll('.tab')];
+const panel = document.getElementById('content');
+const title = document.getElementById('instrument-title');
+const icon = document.getElementById('instrument-icon');
+const definition = document.getElementById('instrument-definition');
+const branchesContainer = document.getElementById('branches');
+const branchTitle = document.getElementById('branch-title');
+const branchDescription = document.getElementById('branch-description');
+const backdrop = document.getElementById('modal-backdrop');
+const modalTitle = document.getElementById('modal-title');
+const modalFact = document.getElementById('modal-fact');
+let currentKey = 'string';
+let previousFocus = null;
+function selectFamily(key, moveFocus = false) {
+  currentKey = key;
+  const family = families[key];
+  tabs.forEach(tab => {
+    const selected = tab.dataset.key === key;
+    tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    if (selected && moveFocus) tab.focus();
+  });
+  panel.setAttribute('aria-labelledby', `tab-${key}`);
+  icon.textContent = family.icon;
+  title.textContent = family.title;
+  definition.textContent = family.definition;
+  branchesContainer.replaceChildren();
+  family.branches.forEach((branch, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'branch';
+    button.setAttribute('aria-pressed', String(index === 0));
+    const name = document.createElement('strong');
+    name.textContent = `${branch.icon} ${branch.name}`;
+    const summary = document.createElement('span');
+    summary.textContent = branch.summary;
+    button.append(name, summary);
+    button.addEventListener('click', () => {
+      branchesContainer.querySelectorAll('.branch').forEach(item => item.setAttribute('aria-pressed', 'false'));
+      button.setAttribute('aria-pressed', 'true');
+      branchTitle.textContent = `${branch.icon} ${branch.name}`;
+      branchDescription.textContent = branch.detail;
+    });
+    branchesContainer.append(button);
+  });
+  branchTitle.textContent = `${family.branches[0].icon} ${family.branches[0].name}`;
+  branchDescription.textContent = family.branches[0].detail;
+}
+tabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectFamily(tab.dataset.key));
+  tab.addEventListener('keydown', event => {
+    let next = index;
+    if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+    else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = tabs.length - 1;
+    else return;
+    event.preventDefault();
+    selectFamily(tabs[next].dataset.key, true);
+  });
+});
+function openModal() {
+  previousFocus = document.activeElement;
+  modalTitle.textContent = `${families[currentKey].icon} ${families[currentKey].title}: fun fact`;
+  modalFact.textContent = families[currentKey].fact;
+  backdrop.hidden = false;
+  document.getElementById('close-modal').focus();
+}
+function closeModal() {
+  backdrop.hidden = true;
+  if (previousFocus) previousFocus.focus();
+}
+document.getElementById('more-button').addEventListener('click', openModal);
+document.getElementById('close-modal').addEventListener('click', closeModal);
+document.getElementById('got-it').addEventListener('click', closeModal);
+backdrop.addEventListener('click', event => { if (event.target === backdrop) closeModal(); });
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && !backdrop.hidden) closeModal(); });
+</script>
+</body>
+</html>
